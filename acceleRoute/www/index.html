@@ -40,47 +40,56 @@
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
 
         <title>acceleRoute</title>
+        <script type="text/javascript">
+            $(function () {
+              
+              $('.tabs li').click(function (e) {
+                   e.preventDefault();
+                   $(this).closest('li').addClass('submenu-active').siblings().removeClass('submenu-active');
+                   
+                   });
+              
+              });
+              
+        </script>
     </head>
     <body>
         <div data-role="page" id="page1">
             <div data-role="header">
-                <nav>
-                    <div class="nav-wrapper">
-                        <a style="color:white;text-align:center;" href="#" class="brand-logo">Logo</a>
-                    </div>
-                </nav>
+                <h1> acceleRoute </h1>
                 
-            
             </div><!-- /header -->
             
             <div data-role="content">
                 
-                <ul class="button-group">
-                    <li class="button button-primary">Option 1</li>
-                    <li class="button button-primary">Option 2</li>
-                    <li class="button button-primary">Option 3</li>
+                
+                
+                <ul style="margin-bottom: 55px" class="tabs">
+                    <li id="op1" onclick="function1();" class="tab">0.5x</li>
+                    <li id="op2" class="tab">1.0x</li>
+                    <li id="op3" class="tab">2.0x</li>
+                    <li id="op4" class="tab">3.0x</li>
+                   
                 </ul>
                 
                 
                 
                 <input class="style-1" type="text" name="name" id="pos" placeholder="Starting Point" value=""  />
-                <input class="style-1" type="text" name="name" id="dest" placeholder="Destination" value=""  />
-                <input class="style-1" type="time" name="name" id="timestart" placeholder="" value="" />
+                <input style="margin-bottom: 25px" class="style-1" type="text" name="name" id="dest" placeholder="Destination" value=""  />
+                
+                <input class="style-1" type="text" name="name" id="time" placeholder="time" value="" />
             </div>
                 
 
             </div><!-- /content -->
             
-            <a style="color:white;position:fixed;bottom:0px;width:100%;padding: 0px; margin:0px;" class="button button-capitalize button-block button-rounded button-primary button-large">Find Route</a>
+            <a style="text-transform: capitalize;color:white;position:fixed;bottom:0px;width:100%;padding: 0px; margin:0px;" class="button button-block button-rounded button-action button-large">Find Route</a>
         </div><!-- /page -->
         
         <div data-role="page" id="page2">
             <div data-role="header">
-                <nav>
-                    <div class="nav-wrapper">
-                        <a style="color:white;text-align:center;" href="#" class="brand-logo">Logo</a>
-                    </div>
-                </nav>
+                <h1> acceleRoute </h1>
+
             </div><!-- /header -->
             
             <div data-role="content">
@@ -98,16 +107,16 @@
         
         <div data-role="page" id="page3">
             <div data-role="header">
-                <nav>
-                    <div class="nav-wrapper">
-                        <a style="color:white;text-align:center;" href="#" class="brand-logo">Logo</a>
-                    </div>
-                </nav>
+                <h1> acceleRoute </h1>
+
             </div><!-- /header -->
             
             <div data-role="content">
                 <input type="text" name="name" id="dest2" placeholder="Destination" value=""  />
-                <p> Options dest here </p>
+                
+                <ul class="collection" id="destlist">
+                    
+                </ul>
             </div><!-- /content -->
             
 
@@ -121,36 +130,78 @@
                   $.mobile.changePage("#page2", {transition: "slide"});
                   var list = getHistory();
                   for (i = 0; i < list.length; i++) {
-                    $("#poslist").append('<li class="collection-item">' + list[i] + '</li>');
+                    $("#poslist").append('<li class="collection-item option">' + list[i] + '</li>');
                   }
                   $("#poslist").listview('refresh');
                   });
               });
               
+              $("#dest").click(function() {
+                  $("#destlist").empty();
+                  $.mobile.changePage("#page3", {transition: "slide"});
+                  var list = getHistory();
+                  for (i = 0; i < list.length; i++) {
+                               $("#destlist").append('<li class="collection-item option">' + list[i] + '</li>');
+                  }
+                  $("#destlist").listview('refresh');
+              });
               
-              
-              $(function() {
-                $("#dest").click(function() {
-                    $.mobile.changePage("#page3", {transition: "slide"});
-                    });
+                
+                $("#time").on('keypress', function(event) {
+                    if(event.keyCode == 13) {
+                              
+                    }
                 });
                 
                 jQuery('#pos2').on('input', function() {
-                                   var temp = $("#pos2").val();
-                                   $('#pos').val(temp);
+                   var temp = $("#pos2").val();
+                   $('#pos').val(temp);
                                    
                 });
-                                   
+                
+                $("#pos2").on('keypress', function(event) {
+                      if(event.keyCode == 13) {
+                        var txt = ($(this).val());
+                        $('#pos').val(txt);
+                        $.mobile.changePage("#page1", {transition: "slide"});
+                      }
+                });
+                
+                $("#dest2").on('keypress', function(event) {
+                      if(event.keyCode == 13) {
+                          var txt = ($(this).val());
+                          $('#dest').val(txt);
+                          $.mobile.changePage("#page1", {transition: "slide"});
+                      }
+                });
+                  
                jQuery('#dest2').on('input', function() {
-                                   var temp = $("#dest2").val();
-                                   $('#dest').val(temp);
+                   var temp = $("#dest2").val();
+                   $('#dest').val(temp);
                                    
                 });
-                                   
+                
+                
+                $(function() {
+                    $("ul#poslist").on('click', 'li', function() {
+                       var txt = ($(this).text());
+                       $('#pos').val(txt);
+                       $.mobile.changePage("#page1", {transition: "slide"});
+                       
+                    });
+                });
+                
+                $("ul#destlist").on('click', 'li', function() {
+                   var txt = ($(this).text());
+                   $('#dest').val(txt);
+                   $.mobile.changePage("#page1", {transition: "slide"});
+               
+               });
+               
                $(function() {
                  $(".button").click(function() {
-                                    findRoute();
-                                    });
+                        findRoute();
+                    });
                  });
         </script>
         <script src="phonegap.js"></script>

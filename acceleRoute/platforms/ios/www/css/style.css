@@ -83,13 +83,3 @@ nav {
     white-space: nowrap;
     outline: 0px none !important;
 }
-
-ul.tabs li.submenu-active {
-    background-color: #B4B4B4;
-    color: white;
-}
-
-li.option:active {
-    background-color: blue;
-    color: white;
-}

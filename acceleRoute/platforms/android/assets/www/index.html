@@ -26,19 +26,126 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/buttons.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
+
+        <link rel="stylesheet" type="text/css" href="css/materialize.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/sheet.php.css" />
+
+
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+        <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+        <title>acceleRoute</title>
     </head>
     <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <div data-role="page" id="page1">
+            <div data-role="header">
+                <h1> acceleRoute </h1>
+                
+            </div><!-- /header -->
+            
+            <div data-role="content">
+                
+                <ul class="tabs">
+                    <li id="op1" class="tab">0.5x</li>
+                    <li id="op2" class="tab">1.0x</li>
+                    <li id="op3" class="tab">2.0x</li>
+                    <li id="op4" class="tab">3.0x</li>
+
+                </ul>
+                
+                
+                
+                <input class="style-1" type="text" name="name" id="pos" placeholder="Starting Point" value=""  />
+                <input class="style-1" type="text" name="name" id="dest" placeholder="Destination" value=""  />
+                <input class="style-1" type="time" name="name" id="timestart" placeholder="" value="" />
             </div>
-        </div>
+                
+
+            </div><!-- /content -->
+            
+            <a style="text-transform: capitalize;color:white;position:fixed;bottom:0px;width:100%;padding: 0px; margin:0px;" class="button button-block button-rounded button-action button-large">Find Route</a>
+        </div><!-- /page -->
+        
+        <div data-role="page" id="page2">
+            <div data-role="header">
+                <h1> acceleRoute </h1>
+
+            </div><!-- /header -->
+            
+            <div data-role="content">
+                <input type="text" name="name" id="pos2" placeholder="Starting Point" value=""
+                    style="margin-bottom: 10%"/>
+                
+                <ul class="collection" id="poslist">
+                    
+                </ul>
+            </div><!-- /content -->
+            
+
+            
+        </div><!-- /page -->
+        
+        <div data-role="page" id="page3">
+            <div data-role="header">
+                <h1> acceleRoute </h1>
+
+            </div><!-- /header -->
+            
+            <div data-role="content">
+                <input type="text" name="name" id="dest2" placeholder="Destination" value=""  />
+                <p> Options dest here </p>
+            </div><!-- /content -->
+            
+
+            
+        </div><!-- /page -->
+        
+        <script type="text/javascript">
+            $(function() {
+              $("#pos").click(function() {
+                  $("#poslist").empty();
+                  $.mobile.changePage("#page2", {transition: "slide"});
+                  var list = getHistory();
+                  for (i = 0; i < list.length; i++) {
+                    $("#poslist").append('<li class="collection-item">' + list[i] + '</li>');
+                  }
+                  $("#poslist").listview('refresh');
+                  });
+              });
+              
+              
+              
+              $(function() {
+                $("#dest").click(function() {
+                    $.mobile.changePage("#page3", {transition: "slide"});
+                    });
+                });
+                
+                jQuery('#pos2').on('input', function() {
+                                   var temp = $("#pos2").val();
+                                   $('#pos').val(temp);
+                                   
+                });
+                                   
+               jQuery('#dest2').on('input', function() {
+                                   var temp = $("#dest2").val();
+                                   $('#dest').val(temp);
+                                   
+                });
+                                   
+               $(function() {
+                 $(".button").click(function() {
+                                    findRoute();
+                                    });
+                 });
+        </script>
+        <script src="phonegap.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
         </script>
