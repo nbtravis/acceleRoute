@@ -11,31 +11,46 @@ app.all('/', function(req, res, next) {
 
 app.get('/', function (req, res) {
 	var from = querystring.escape(req.query.from),
-    	to = querystring.escape(req.query.to);
+    	to = querystring.escape(req.query.to),
+    	time = req.query.time;
+
+    calculate(from, to, time, res);
+});
+
+var calculate = function(from, to, time, res) {
+	var memo = {};
+	var end;
+
+	calculateHelper(from, to, convertTime(time), res);
+};
+
+var calculateHelper = function(from, to, time, res) {
 
 	var options = {
 		host: 'dev.virtualearth.net',
-		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime=3:00:00PM&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
+		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+time+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
 
 	var callback = function(response) {
 		var str = '';
 
-        response.on('data', function (chunk) {
-        	str += chunk;
-        });
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
 
-        response.on('end', function () {
-        	res.send(calculate(str));
-        });
-    };
+		response.on('end', function () {
+			res.send(str);
+		});
+	};
 
-    http.request(options, callback).end();
+	http.request(options, callback).end();
+};
 
-});
+var convertTime = function(time) {
+	var d = new Date(time).toLocaleDateString(),
+	    t = new Date(time).toLocaleTimeString().replace(' ', '');
 
-var calculate = function(data) {
-	return data;
+	return querystring.escape(d+" "+t);
 }
 
 var server = app.listen(3000, function () {
