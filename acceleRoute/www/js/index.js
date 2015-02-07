@@ -104,6 +104,7 @@ function getLocation() {
 }
 var res = [["hello", "world"],["whats","app"]];
 function results(data) {
+    alert(data);
     var newRes = [];
     data = data.reverse();
     for (var i = 0;i<data.length;i++) {
@@ -115,6 +116,7 @@ function results(data) {
     for (i = 0; i < res.length; i++) {
         $("#directions").append('<li class="collection-item">' + res[i][0] + '</li>');
     }
+
     $("#directions").listview('refresh');
 }
 
