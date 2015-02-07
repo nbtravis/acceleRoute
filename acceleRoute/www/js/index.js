@@ -53,7 +53,7 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires;
+    document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 
 function getCookie(cname) {
@@ -65,11 +65,13 @@ function getCookie(cname) {
         if (c.indexOf(name)==0) return c.substring(name.length, c.length);
 
     }
+    console.log("found no cookie");
     return "";
 }
 
 function getHistory() {
     var curr_string = getCookie("searches");
+    console.log("got history " + curr_string);
     if (curr_string=="") return [];
     else return JSON.parse(curr_string);
 
@@ -77,12 +79,13 @@ function getHistory() {
 
 function addToHistory(search) {
    
-    history = getHistory();
+    var history = getHistory();
     if (history.indexOf(search)==-1) {
         history = [search].concat(history);
         if (history.length > maxHistorySize)
             history = history.slice(0, maxHistorySize);
         setCookie("searches", JSON.stringify(history), 10);
+        console.log("added " + search +" to history");
     }
     return;
 
@@ -97,11 +100,13 @@ function getLocation() {
         }
 
     );
+    console.log("got location" + currLocationString);
 }
 
 function findRoute() {
     var S = document.getElementById('pos').value;
     var T = document.getElementById('dest').value;
+
     if (S=="Current Location") {
         getLocation();
         S = currLocationString;
@@ -114,6 +119,12 @@ function findRoute() {
     }
     else
         addToHistory(T);
-
+    console.log("finding route between " + S + " and " + T);
     //TODO : send query to Azure
+    $.ajax({
+        type: "GET",
+        url:  "http://localhost:3000",
+        data: {to: S, from: T, time: Date.now()},
+        success: function (data) {console.log("success " + data)}
+    });
 }

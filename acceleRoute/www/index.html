@@ -30,49 +30,78 @@
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
         <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+
         <title>acceleRoute</title>
     </head>
     <body>
-        <div data-role="page" id="home">
+        <div data-role="page" id="page1">
             <div data-role="header">
                 <h1>
                     acceleRoute
                 </h1>
-            </div>
-        
+            </div><!-- /header -->
+            
             <div data-role="content">
-                
-                <form>
-                    <input type="text" name="name" id="pos" placeholder="Starting Point" value=""  />
-                    <input type="text" name="name" id="dest" placeholder="Destination" value=""  />
-                    
-                </form>
-            </div>
-
+                <input type="text" name="name" id="pos" placeholder="Starting Point" value=""  />
+                <input type="text" name="name" id="dest" placeholder="Destination" value=""  />
+            </div><!-- /content -->
+            
             <div data-role="footer">
             </div>
+        </div><!-- /page -->
+        
+        <div data-role="page" id="page2">
+            <div data-role="header">
+                <h1>
+                    acceleRoute
+                </h1>
+            </div><!-- /header -->
             
-            <div data-role="page" id="search">
-                <div data-role="header">
-                    <h1>
-                        acceleRoute
-                    </h1>
-                </div>
-                
-                <div data-role="content">
-                    
-                </div>
-                
-                <div data-role="footer">
-                </div>
-                
-            </div>
-        </div>
+            <div data-role="content">
+                <input type="text" name="name" id="pos2" placeholder="Starting Point" value=""  />
+                <p> Options here </p>
+            </div><!-- /content -->
+            
+            <div data-role="footer">
+            </div><!-- /fotoer -->
+            
+        </div><!-- /page -->
+        
+        <div data-role="page" id="page3">
+            <div data-role="header">
+                <h1>
+                    acceleRoute
+                </h1>
+            </div><!-- /header -->
+            
+            <div data-role="content">
+                <input type="text" name="name" id="dest2" placeholder="Destination" value=""  />
+                <p> Options here </p>
+            </div><!-- /content -->
+            
+            <div data-role="footer">
+            </div><!-- /fotoer -->
+            
+        </div><!-- /page -->
+        
+        <script type="text/javascript">
+            $(function() {
+              $("#pos").click(function() {
+                        $.mobile.changePage("#page2");
+                    });
+              });
+              
+              $(function() {
+                $("#dest").click(function() {
+                                $.mobile.changePage("#page3");
+                    });
+                });
+        </script>
         <script src="phonegap.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
             app.initialize();
-        </script>
+            </script>
     </body>
 </html>
