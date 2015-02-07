@@ -1,8 +1,6 @@
 var express = require('express');
 var app = express();
 var http = require("http");
-http.globalAgent.maxSockets = 20;
-var request = require("request");
 var querystring = require("querystring");
 
 app.all('/', function(req, res, next) {
