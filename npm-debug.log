@@ -1,0 +1,186 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install', 'request' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose node symlink /usr/bin/node
+5 warn package.json acceleroute@0.0.0 No description
+6 warn package.json acceleroute@0.0.0 No repository field.
+7 verbose readDependencies using package.json deps
+8 verbose cache add [ 'request', null ]
+9 verbose cache add name=undefined spec="request" args=["request",null]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: 'request',
+10 verbose parsed url   path: 'request',
+10 verbose parsed url   href: 'request' }
+11 silly lockFile 088e29b0-request request
+12 verbose lock request /home/ajay/.npm/088e29b0-request.lock
+13 silly lockFile 088e29b0-request request
+14 silly lockFile 088e29b0-request request
+15 verbose addNamed [ 'request', '' ]
+16 verbose addNamed [ null, '*' ]
+17 silly lockFile 9d461bcf-request request@
+18 verbose lock request@ /home/ajay/.npm/9d461bcf-request.lock
+19 silly addNameRange { name: 'request', range: '*', hasData: false }
+20 verbose request where is /request
+21 verbose request registry https://registry.npmjs.org/
+22 verbose request id 7f92322f0ec41c1b
+23 verbose url raw /request
+24 verbose url resolving [ 'https://registry.npmjs.org/', './request' ]
+25 verbose url resolved https://registry.npmjs.org/request
+26 verbose request where is https://registry.npmjs.org/request
+27 info trying registry request attempt 1 at 12:35:49
+28 verbose etag "2A18ZEVMDZQYUSFDWPYCJ4GNS"
+29 http GET https://registry.npmjs.org/request
+30 http 304 https://registry.npmjs.org/request
+31 silly registry.get cb [ 304,
+31 silly registry.get   { date: 'Sat, 07 Feb 2015 17:35:22 GMT',
+31 silly registry.get     server: 'Apache',
+31 silly registry.get     via: '1.1 varnish',
+31 silly registry.get     'last-modified': 'Sat, 07 Feb 2015 17:35:13 GMT',
+31 silly registry.get     'cache-control': 'max-age=60',
+31 silly registry.get     etag: '"2A18ZEVMDZQYUSFDWPYCJ4GNS"',
+31 silly registry.get     age: '52',
+31 silly registry.get     'x-served-by': 'cache-iad2125-IAD',
+31 silly registry.get     'x-cache': 'HIT',
+31 silly registry.get     'x-cache-hits': '2',
+31 silly registry.get     'x-timer': 'S1423330522.863055,VS0,VE0',
+31 silly registry.get     vary: 'Accept',
+31 silly registry.get     'content-length': '0',
+31 silly registry.get     'keep-alive': 'timeout=10, max=50',
+31 silly registry.get     connection: 'Keep-Alive' } ]
+32 verbose etag https://registry.npmjs.org/request from cache
+33 silly addNameRange number 2 { name: 'request', range: '*', hasData: true }
+34 silly addNameRange versions [ 'request',
+34 silly addNameRange   [ '0.10.0',
+34 silly addNameRange     '0.8.3',
+34 silly addNameRange     '0.9.0',
+34 silly addNameRange     '0.9.1',
+34 silly addNameRange     '0.9.5',
+34 silly addNameRange     '1.0.0',
+34 silly addNameRange     '1.1.0',
+34 silly addNameRange     '1.1.1',
+34 silly addNameRange     '1.2.0',
+34 silly addNameRange     '1.9.0',
+34 silly addNameRange     '1.9.1',
+34 silly addNameRange     '1.9.2',
+34 silly addNameRange     '1.9.3',
+34 silly addNameRange     '1.9.5',
+34 silly addNameRange     '1.9.7',
+34 silly addNameRange     '1.9.8',
+34 silly addNameRange     '1.9.9',
+34 silly addNameRange     '2.0.0',
+34 silly addNameRange     '2.0.1',
+34 silly addNameRange     '2.0.2',
+34 silly addNameRange     '2.0.3',
+34 silly addNameRange     '2.0.4',
+34 silly addNameRange     '2.0.5',
+34 silly addNameRange     '2.1.0',
+34 silly addNameRange     '2.1.1',
+34 silly addNameRange     '2.2.0',
+34 silly addNameRange     '2.2.5',
+34 silly addNameRange     '2.2.6',
+34 silly addNameRange     '2.2.9',
+34 silly addNameRange     '2.9.0',
+34 silly addNameRange     '2.9.1',
+34 silly addNameRange     '2.9.2',
+34 silly addNameRange     '2.9.3',
+34 silly addNameRange     '2.9.100',
+34 silly addNameRange     '2.9.150',
+34 silly addNameRange     '2.9.151',
+34 silly addNameRange     '2.9.152',
+34 silly addNameRange     '2.9.153',
+34 silly addNameRange     '2.9.200',
+34 silly addNameRange     '2.9.201',
+34 silly addNameRange     '2.9.202',
+34 silly addNameRange     '2.9.203',
+34 silly addNameRange     '2.10.0',
+34 silly addNameRange     '2.11.0',
+34 silly addNameRange     '2.11.1',
+34 silly addNameRange     '2.11.2',
+34 silly addNameRange     '2.11.3',
+34 silly addNameRange     '2.11.4',
+34 silly addNameRange     '2.12.0',
+34 silly addNameRange     '2.14.0',
+34 silly addNameRange     '2.16.0',
+34 silly addNameRange     '2.16.2',
+34 silly addNameRange     '2.16.4',
+34 silly addNameRange     '2.16.6',
+34 silly addNameRange     '2.18.0',
+34 silly addNameRange     '2.19.0',
+34 silly addNameRange     '2.20.0',
+34 silly addNameRange     '2.21.0',
+34 silly addNameRange     '2.22.0',
+34 silly addNameRange     '2.23.0',
+34 silly addNameRange     '2.24.0',
+34 silly addNameRange     '2.25.0',
+34 silly addNameRange     '2.26.0',
+34 silly addNameRange     '2.27.0',
+34 silly addNameRange     '2.28.0',
+34 silly addNameRange     '2.29.0',
+34 silly addNameRange     '2.30.0',
+34 silly addNameRange     '2.31.0',
+34 silly addNameRange     '2.32.0',
+34 silly addNameRange     '2.33.0',
+34 silly addNameRange     '2.34.0',
+34 silly addNameRange     '2.35.0',
+34 silly addNameRange     '2.36.0',
+34 silly addNameRange     '2.37.0',
+34 silly addNameRange     '2.38.0',
+34 silly addNameRange     '2.39.0',
+34 silly addNameRange     '2.40.0',
+34 silly addNameRange     '2.41.0',
+34 silly addNameRange     '2.42.0',
+34 silly addNameRange     '2.43.0',
+34 silly addNameRange     '2.44.0',
+34 silly addNameRange     '2.45.0',
+34 silly addNameRange     '2.46.0',
+34 silly addNameRange     '2.47.0',
+34 silly addNameRange     '2.48.0',
+34 silly addNameRange     '2.49.0',
+34 silly addNameRange     '2.50.0',
+34 silly addNameRange     '2.51.0',
+34 silly addNameRange     '2.52.0',
+34 silly addNameRange     '2.53.0' ] ]
+35 verbose addNamed [ 'request', '2.53.0' ]
+36 verbose addNamed [ '2.53.0', '2.53.0' ]
+37 silly lockFile aee8052e-request-2-53-0 request@2.53.0
+38 verbose lock request@2.53.0 /home/ajay/.npm/aee8052e-request-2-53-0.lock
+39 silly lockFile ba72365e-s-org-request-request-2-53-0-tgz https://registry.npmjs.org/request/-/request-2.53.0.tgz
+40 verbose lock https://registry.npmjs.org/request/-/request-2.53.0.tgz /home/ajay/.npm/ba72365e-s-org-request-request-2-53-0-tgz.lock
+41 verbose addRemoteTarball [ 'https://registry.npmjs.org/request/-/request-2.53.0.tgz',
+41 verbose addRemoteTarball   '180a3ae92b7b639802e4f9545dd8fcdeb71d760c' ]
+42 info retry fetch attempt 1 at 12:35:49
+43 verbose fetch to= /tmp/npm-26904-r66xDdx9/registry.npmjs.org/request/-/request-2.53.0.tgz
+44 http GET https://registry.npmjs.org/request/-/request-2.53.0.tgz
+45 http 200 https://registry.npmjs.org/request/-/request-2.53.0.tgz
+46 silly lockFile ba72365e-s-org-request-request-2-53-0-tgz https://registry.npmjs.org/request/-/request-2.53.0.tgz
+47 silly lockFile ba72365e-s-org-request-request-2-53-0-tgz https://registry.npmjs.org/request/-/request-2.53.0.tgz
+48 silly lockFile aee8052e-request-2-53-0 request@2.53.0
+49 silly lockFile aee8052e-request-2-53-0 request@2.53.0
+50 silly lockFile 9d461bcf-request request@
+51 silly lockFile 9d461bcf-request request@
+52 error Error: EACCES, mkdir '/home/ajay/.npm/request/2.53.0'
+52 error  { [Error: EACCES, mkdir '/home/ajay/.npm/request/2.53.0']
+52 error   errno: 3,
+52 error   code: 'EACCES',
+52 error   path: '/home/ajay/.npm/request/2.53.0',
+52 error   parent: 'acceleroute' }
+53 error Please try running this command again as root/Administrator.
+54 error System Linux 3.13.0-45-generic
+55 error command "/usr/bin/node" "/usr/bin/npm" "install" "request"
+56 error cwd /home/ajay/workspace/acceleRoute
+57 error node -v v0.10.36
+58 error npm -v 1.4.28
+59 error path /home/ajay/.npm/request/2.53.0
+60 error code EACCES
+61 error errno 3
+62 error stack Error: EACCES, mkdir '/home/ajay/.npm/request/2.53.0'
+63 verbose exit [ 3, true ]
