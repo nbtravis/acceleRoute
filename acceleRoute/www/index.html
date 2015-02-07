@@ -33,12 +33,40 @@
         <title>acceleRoute</title>
     </head>
     <body>
-        <div class="app">
-            <form>
-                <input type="search" name="search" id="searc-basic" value="" />
-                <input type="search" name="search" id="searc-basic" value="" />
+        <div data-role="page" id="home">
+            <div data-role="header">
+                <h1>
+                    acceleRoute
+                </h1>
+            </div>
+        
+            <div data-role="content">
+                
+                <form>
+                    <input type="text" name="name" id="pos" placeholder="Starting Point" value=""  />
+                    <input type="text" name="name" id="dest" placeholder="Destination" value=""  />
+                    
+                </form>
+            </div>
 
-            </form>
+            <div data-role="footer">
+            </div>
+            
+            <div data-role="page" id="search">
+                <div data-role="header">
+                    <h1>
+                        acceleRoute
+                    </h1>
+                </div>
+                
+                <div data-role="content">
+                    
+                </div>
+                
+                <div data-role="footer">
+                </div>
+                
+            </div>
         </div>
         <script src="phonegap.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
