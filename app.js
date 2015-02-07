@@ -1,21 +1,19 @@
-var express = require('express');
-var app = express();
+var express = require('express')
+  , app = express.createServer();
 
-app.all('/', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
- });
-
-app.get('/', function (req, res) {
-  res.send('Hello from azure !')
+app.configure(function () {
+    app.use(express.methodOverride());
+    app.use(express.bodyParser());
+    app.use(function(req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      next();
+    });
+    app.use(app.router);
 });
 
-var server = app.listen(80, function () {
+app.get("/", function(req, res) {
+	res.send("Hello from azure !");
+})
 
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log('Example app listening at http://%s:%s', host, port)
-
-});
+app.listen(80);
