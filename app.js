@@ -55,7 +55,9 @@ var calculate = function(from, to, time, speed, res) {
 		});
 
 		response.on('end', function () {
-			var resources = JSON.parse(str).resourceSets[0].resources;
+			var resources1 =JSON.parse(str).resourceSets[0];
+			if (resources1 === undefined) return;
+			var resources = resources1.resources;
 			for (var k = 0; k < resources.length; k++) {
 				var resource = resources[k];
 				var data = resource.routeLegs[0];
