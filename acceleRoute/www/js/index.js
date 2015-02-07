@@ -102,7 +102,7 @@ function getLocation() {
     );
     console.log("got location" + currLocationString);
 }
-var res = [];
+var res = [["hello", "world"],["whats","app"]];
 function results(data) {
     var newRes = [];
     data = data.reverse();
@@ -111,6 +111,11 @@ function results(data) {
     }
     res = newRes;
     $.mobile.changePage("#page4", {transition: "slideup"});
+    console.log(res.length);
+    for (i = 0; i < res.length; i++) {
+        $("#directions").append('<li class="collection-item">' + res[i][0] + '</li>');
+    }
+    $("#directions").listview('refresh');
 }
 
 function getResults() {
