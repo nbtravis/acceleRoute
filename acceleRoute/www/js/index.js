@@ -151,8 +151,9 @@ function findRoute() {
     
     $.ajax({
         type: "GET",
-        url:  "http://localhost:3000",
-        data: {to: S, from: T, time: Date.now(), speed: sp},
-        success: function (data) {results(data)}
+        url:  "http://localhost:3000/",
+        data: {to: S, from: T, time: Date.now(), speed: 1.0},
+        success: function (data) {results(JSON.parse(data));},
+            error:function(a, b, c) {alert(a);}
     });
 }

@@ -10,6 +10,8 @@ app.all('/', function(req, res, next) {
 });
 
 app.get('/', function (req, res) {
+	console.log("WERE HEERR");
+	console.log(req.query);
 	var from = querystring.escape(req.query.from),
     	to = querystring.escape(req.query.to),
     	time = req.query.time,
@@ -55,8 +57,9 @@ var calculate = function(from, to, time, speed, res) {
 		host: 'dev.virtualearth.net',
 		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+convertTime(time)+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
-
+	console.log("calc");
 	var callback = function(response) {
+		console.log("callbacl");
 		var str = '';
 
 		response.on('data', function (chunk) {
@@ -64,6 +67,7 @@ var calculate = function(from, to, time, speed, res) {
 		});
 
 		response.on('end', function () {
+			console.log("a result");
 			var resources1 =JSON.parse(str).resourceSets[0];
 			if (resources1 === undefined) return;
 			var resources = resources1.resources;
@@ -176,6 +180,7 @@ var calculateHelper = function(to, speed, res) {
 		});
 
 		response.on('end', function () {
+			console.log(from);
 			if (str==="") return;
 			var resources1 = JSON.parse(str).resourceSets[0];
 			if (resources1 === undefined) return;
