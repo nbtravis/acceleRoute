@@ -37,7 +37,50 @@ input[type="time"]:focus,
 .ui-content {
     border-width: 0px;
     overflow-y: visible;
-    overflow-x: hidden;
+
+    overflow-x: hidden;x
     padding: 0px;
     text-align: center;
+}
+
+nav {
+    color: rgb(197, 71, 71);
+    background-color: #535353;
+    width: 100%;
+    height: 100px;
+    line-height: 56px;
+}
+
+.tabs li.tab {
+    display: block;
+    float: left;
+    text-align: center;
+    background-color: #FFF;
+    line-height: 75px;
+    height: 75px;
+    padding: 0px 20px;
+    margin: 0px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    width: 25%;
+    font-size: 14pt;
+}
+
+.ui-title, h1 {
+    text-transform: capitalize;
+    font-size: 20px;
+}
+
+.ui-header .ui-title, .ui-footer .ui-title {
+    min-height: 1.1em;
+    text-align: center;
+    font-size: 35px;
+    display: block;
+    margin: 0.6em 30% 0em;
+    padding: 0px;
+    margin-left: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: 0px none !important;
 }

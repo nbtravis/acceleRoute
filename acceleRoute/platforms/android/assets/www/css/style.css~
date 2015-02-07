@@ -37,7 +37,11 @@ input[type="time"]:focus,
 .ui-content {
     border-width: 0px;
     overflow-y: visible;
-
+<<<<<<< HEAD
+    overflow-x: hidden;
+    padding: 0px;
+    text-align: center;
+=======
     overflow-x: hidden;x
     padding: 0px;
     text-align: center;
@@ -83,5 +87,5 @@ nav {
     overflow: hidden;
     white-space: nowrap;
     outline: 0px none !important;
-
+>>>>>>> 19e8e648c26944ffe89a5fcfb4151a3417552a14
 }
