@@ -1,0 +1,12 @@
+{
+  "name": "acceleroute",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "author": "some H4ck3Rz",
+  "private": true,
+  "license": "BSD",
+  "dependencies": {
+    "express": "3.4.8"
+  }
+}
