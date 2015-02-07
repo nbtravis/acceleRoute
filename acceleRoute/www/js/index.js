@@ -121,4 +121,10 @@ function findRoute() {
         addToHistory(T);
     console.log("finding route between " + S + " and " + T);
     //TODO : send query to Azure
+    $.ajax({
+        type: "GET",
+        url:  "http://localhost:3000",
+        data: {to: S, from: T, time: Date.now()},
+        success: function (data) {console.log("success " + data)}
+    });
 }
