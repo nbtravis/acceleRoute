@@ -78,7 +78,7 @@ function getHistory() {
 }
 
 function addToHistory(search) {
-   
+   if (search=="") return;
     var history = getHistory();
     if (history.indexOf(search)==-1) {
         history = [search].concat(history);
@@ -124,7 +124,7 @@ function findRoute() {
     $.ajax({
         type: "GET",
         url:  "http://localhost:3000",
-        data: {to: S, from: T, time: Date.now()},
+        data: {to: S, from: T, time: Date.now(), speed: 1.0},
         success: function (data) {console.log("success " + data)}
     });
 }
