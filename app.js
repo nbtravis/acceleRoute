@@ -18,8 +18,12 @@ app.get('/', function (req, res) {
     	speed = req.query.speed;
 
     calculate(from, to, time, speed, res);
-
 });
+
+app.get('/test', function (req, res) {
+	res.send("Hello from Azure !");
+})
+
 var memoTime = {};
 var memoPrev = {};
 var memoDir = {};
