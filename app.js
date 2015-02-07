@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var http = require("http");
+var request = require("request");
 var querystring = require("querystring");
 
 app.all('/', function(req, res, next) {
@@ -20,7 +21,7 @@ app.get('/', function (req, res) {
 var memoTime = {};
 var memoPrev = {};
 var memoDir = {};
-var end;
+var end = "";
 var stack = [];
 var accumulatePath = function() {
 	var result = [];
@@ -41,25 +42,26 @@ var calculate = function(from, to, time, speed, res) {
 		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+convertTime(time)+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
 
-	var callback = function(response) {
-		var str = '';
+	var callback = function(error, response, str) {
+		// var str = '';
 
-		response.on('data', function (chunk) {
-			str += chunk;
-		});
+		// response.on('data', function (chunk) {
+		// 	str += chunk;
+		// });
 
-		response.on('end', function () {
+		// response.on('end', function () {
 			var resources = JSON.parse(str).resourceSets[0].resources;
-			for (var resource : resources) {
+			for (var k = 0; k < resources.length; k++) {
+				var resource = resources[k];
 				var data = resource.routeLegs[0];
 				var items = data.itineraryItems;
 				var instr = items[0].instruction.text;
 
 				var duration = items[0].travelDuration;
 				
-				var i = instr.find("to") + 3;
+				var i = instr.indexOf("to") + 3;
 				var dest = instr.substring(i, instr.length);
-				var j = instr.find("from")+5;
+				var j = instr.indexOf("from")+5;
 				var src = instr.substring(j, i-3);
 
 				var scaledTime = duration / speed;
@@ -73,11 +75,11 @@ var calculate = function(from, to, time, speed, res) {
 				memoPrev[dest] = src;
 				memoDir[dest] = instr;
 
-				if (end=="") {
+				if (end==="") {
 					var lastInstr = items[items.length - 1].instruction;
-					if (lastInstr.text.find("Walk")===0) {
+					if (lastInstr.text.indexOf("Walk")===0) {
 						instr = lastInstr.text;
-						i = instr.find("to") + 3;
+						i = instr.indexOf("to") + 3;
 						dest = instr.substring(i, instr.length);
 						end = dest;
 					}
@@ -85,59 +87,66 @@ var calculate = function(from, to, time, speed, res) {
 						instr = items[items.length - 1].childItineraryItems[1].instruction.text;
 						end = instr.substring(8, instr.length);
 					}
+					console.log(end);
 				}
 
 
 			} 
 
-		});
+		// });
 	};
-	http.request(options, callback).end();
+	request("http://"+options.host+options.path, callback);
 
 	calculateHelper(to, speed, res);
 };
 
 var calculateHelper = function(to, speed, res) {
-	if (end=="") {
-		setTimeout(function(){calculateHelper(speed, res)}, 100);
+	if (end==="") {
+		setTimeout(function(){calculateHelper(to, speed, res)}, 500);
 		return;
 	}
 	if (stack.length === 0) {
+		//console.log(res);
 		res.send(accumulatePath());
 		return;
 	}
 
+	//console.log(stack);
 	var pos = stack.pop();
+	console.log(stack);
 	var time = pos[0];
-	var from = pos[1];
+	var from = querystring.escape(pos[1]);
 
 	var options = {
 		host: 'dev.virtualearth.net',
 		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+convertTime(time)+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
 
-	var callback = function(response) {
-		var str = '';
+	var callback = function(error, response, str) {
+		console.log("hi1");
+		// var str = '';
 
-		response.on('data', function (chunk) {
-			str += chunk;
-		});
+		// response.on('data', function (chunk) {
+		// 	str += chunk;
+		// });
 
-		response.on('end', function () {
+		// response.on('end', function () {
 			var resources = JSON.parse(str).resourceSets[0].resources;
-			for (var resource : resources) {
+			for (var k = 0; k < resources.length; k++) {
+				var resource = resources[k];
 				var data = resource.routeLegs[0];
 				var items = data.itineraryItems;
 				var instr = items[0].instruction.text;
-				if (instr.find("Walk")===0 && memoDir[from].find("Walk")===0))
+				console.log(instr);
+				if (instr.indexOf("Walk")===0 && memoDir[from].indexOf("Walk")===0)
 					continue;
 
-				if (instr.find("Walk")) {
+				if (instr.indexOf("Walk")===0) {
 					var duration = items[0].travelDuration;
 					
-					var i = instr.find("to") + 3;
+					var i = instr.indexOf("to") + 3;
 					var dest = instr.substring(i, instr.length);
-					var j = instr.find("from")+5;
+					var j = instr.indexOf("from")+5;
 					var src = instr.substring(j, i-3);
 
 					var scaledTime = duration / speed;
@@ -154,7 +163,7 @@ var calculateHelper = function(to, speed, res) {
 					var arriveInstr = items[0].childItineraryItems[1].instructon.text;
 					// TODO : also find time we leave the bus stop
 					
-					var dest = instr.substring(8, instr.length);
+					var dest = arriveInstr.substring(8, instr.length);
 					var newDepartureTime = (eval("new " + items[0].childItineraryItems[1].time)).getTime();
 					if (dest in memoTime && memoTime[dest]<newDepartureTime) continue;
 					memoTime[dest] = newDepartureTime;
@@ -165,21 +174,23 @@ var calculateHelper = function(to, speed, res) {
 					if (dest !== end) 
 						stack.push([newDepartureTime, dest]);
 				}
-				
-
-
 
 			}
-		});
+		// });
 	};
 
-	http.request(options, callback).end();
+	console.log(pos);
+	request("http://"+options.host+options.path, callback);
+	if (end in memoTime) {
+		res.send(accumulatePath());
+		return;
+	}
 	calculateHelper(to, speed, res);
 };
 
 var convertTime = function(time) {
-	var d = new Date(time).toLocaleDateString(),
-	    t = new Date(time).toLocaleTimeString().replace(' ', '');
+	var d = new Date(Date(time)).toLocaleDateString(),
+	    t = new Date(Date(time)).toLocaleTimeString().replace(' ', '');
 
 	return querystring.escape(d+" "+t);
 }
