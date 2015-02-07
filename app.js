@@ -99,7 +99,6 @@ var calculate = function(from, to, time, speed, res) {
 					}
 					console.log(end);
 				}
-				response.removeAllListeners('data');
 
 			} 
 
@@ -162,6 +161,17 @@ var calculateHelper = function(to, speed, res) {
 				var items = data.itineraryItems;
 				var instr = items[0].instruction.text;
 				console.log(instr);
+				console.log("duration " + items[0].travelDuration + " steps " + items.length);
+
+				if (items[0].travelDuration===0) {
+					if (items.length === 1) {
+						end = from;
+						res.send(accumulatePath());
+						return;
+					}
+					else return;
+
+				}
 				if (instr.indexOf("Walk")===0) {
 					var i = instr.indexOf("to")+3;
 					var dest = instr.substring(i, instr.length);
@@ -173,16 +183,7 @@ var calculateHelper = function(to, speed, res) {
 				//console.log("from" + from);
 				if (instr.indexOf("Walk")===0 && memoDir[from].indexOf("Walk")===0)
 					continue;
-				if (items[0].travelDuration===0) {
-					if (items.length === 1) {
-						end = from;
-						res.send(accumulatePath());
-						return;
-					}
-					else return;
-
-				}
-				console.log("duration " + items[0].travelDuration + " steps " + items.length);
+				
 				if (instr.indexOf("Walk")===0) {
 					var duration = items[0].travelDuration;
 					
