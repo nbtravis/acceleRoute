@@ -26,15 +26,24 @@ var memoTime = {};
 var memoPrev = {};
 var memoDir = {};
 var end = "";
+var prevEnd = "";
+var lastLegTime;
+var lastLegDir;
 var stack = [];
 var accumulatePath = function() {
-	if (!(end in memoTime)) return [];
+	console.log("accc");
+		
+
+	if (!(end in memoTime || ("'" + end + "'") in memoTime)) return [];
 	var result = [];
+	if (!(end in memoTime)) end = "'" + end + "'";
 	var curr = end;
+	result.push([lastLegTime, lastLegDir]);
 	while (memoPrev[curr] !== "") {
 		result.push([memoTime[curr], memoDir[curr]]);
 		curr = memoPrev[curr];
 	}
+	console.log(result);
 	return result;
 };
 
@@ -68,7 +77,7 @@ var calculate = function(from, to, time, speed, res) {
 				
 				var i = instr.indexOf("to") + 3;
 				var dest = instr.substring(i, instr.length);
-				var j = instr.indexOf("from")+5;
+				var j = instr.indexOf("From")+5;
 				var src = instr.substring(j, i-3);
 
 				var scaledTime = duration / speed;
@@ -91,27 +100,44 @@ var calculate = function(from, to, time, speed, res) {
 						instr = lastInstr.text;
 						i = instr.indexOf("to") + 3;
 						dest = instr.substring(i, instr.length);
-						end = dest;
+
+						j = instr.indexOf("From")+5;
+						src = instr.substring(j, i-3);
+
+						prevEnd = src;
+						lastLegTime = items[items.length-1].travelDuration;
+						lastLegDir = lastInstr;
+
+						end = src;
 					}
 					else {
 						instr = items[items.length - 1].childItineraryItems[1].instruction.text;
 						end = instr.substring(8, instr.length);
+
+					
 					}
-					console.log(end);
+					//console.log(end);
 				}
 
 			} 
 
 		});
 	};
+	fixallMemos();
 	http.get("http://"+options.host+options.path, callback);
 
 	calculateHelper(to, speed, res);
 };
 
 var calculateHelper = function(to, speed, res) {
+	fixallMemos();
 	if (end==="") {
 		setTimeout(function(){calculateHelper(to, speed, res)}, 100);
+		return;
+	}
+	if (end in memoTime || ("'" + end + "'") in memoTime) {
+		//console.log("found");
+		res.send(accumulatePath());
 		return;
 	}
 	if (stack.length === 0) {
@@ -121,7 +147,7 @@ var calculateHelper = function(to, speed, res) {
 		return;
 	}
 
-	console.log(stack);
+	//console.log(stack);
 	var pos = stack.pop();
 	var time = pos[0];
 	var from = pos[1];
@@ -189,7 +215,7 @@ var calculateHelper = function(to, speed, res) {
 					
 					var i = instr.indexOf("to") + 3;
 					var dest = instr.substring(i, instr.length);
-					var j = instr.indexOf("from")+5;
+					var j = instr.indexOf("From")+5;
 					var src = instr.substring(j, i-3);
 
 					var scaledTime = duration / speed;
@@ -220,16 +246,41 @@ var calculateHelper = function(to, speed, res) {
 				}
 
 			}
+			fixallMemos();
+			if (end in memoTime || ("'" + end + "'") in memoTime) {
+				res.send(accumulatePath());
+				return;
+			}
 		});
 	};
 
 	http.get("http://"+options.host+options.path, callback);
-	if (end in memoTime) {
+				fixallMemos();
+
+	if (end in memoTime || ("'" + end + "'") in memoTime) {
+		console.log("found!!");
 		res.send(accumulatePath());
 		return;
 	}
+	console.log ("end = " + end);
+	console.log(memoTime);
 	calculateHelper(to, speed, res);
 };
+var fixallMemos = function() {
+	memoTime = fixMemo(memoTime);
+	memoPrev = fixMemo(memoPrev);
+	memoDir = fixMemo(memoDir);
+}
+var fixMemo = function(memo) {
+	var newMemo = {};
+	for (var key in memo) {
+		var newKey = key.replace(/['"]/g, '');
+		newMemo[newKey] = memo[key];
+		//if (!(newKey in memo) || memo[newKey] > memo[key])
+			//newMemo[newKey] = memo[key];
+	}
+	return newMemo;
+}
 
 var convertTime = function(time) {
 	var d = new Date(Date(time)).toLocaleDateString(),
