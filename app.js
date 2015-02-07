@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var http = require("http");
+http.globalAgent.maxSockets = 20;
 var request = require("request");
 var querystring = require("querystring");
 
@@ -42,14 +43,14 @@ var calculate = function(from, to, time, speed, res) {
 		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+convertTime(time)+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
 
-	var callback = function(error, response, str) {
-		// var str = '';
+	var callback = function(response) {
+		var str = '';
 
-		// response.on('data', function (chunk) {
-		// 	str += chunk;
-		// });
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
 
-		// response.on('end', function () {
+		response.on('end', function () {
 			var resources = JSON.parse(str).resourceSets[0].resources;
 			for (var k = 0; k < resources.length; k++) {
 				var resource = resources[k];
@@ -66,15 +67,18 @@ var calculate = function(from, to, time, speed, res) {
 
 				var scaledTime = duration / speed;
 				var newDepartureTime = time + scaledTime*1000;
-				stack.push([newDepartureTime, dest]);
 				memoTime[src] = time;
 				memoPrev[src] = "";
 				memoDir[src] = "";
 
-				memoTime[dest] = newDepartureTime;
-				memoPrev[dest] = src;
-				memoDir[dest] = instr;
+				if ((!(dest in memoTime)) || (memoTime[dest]>newDepartureTime)) {
+					stack.push([newDepartureTime, dest]);
 
+
+					memoTime[dest] = newDepartureTime;
+					memoPrev[dest] = src;
+					memoDir[dest] = instr;
+			    }
 				if (end==="") {
 					var lastInstr = items[items.length - 1].instruction;
 					if (lastInstr.text.indexOf("Walk")===0) {
@@ -89,31 +93,31 @@ var calculate = function(from, to, time, speed, res) {
 					}
 					console.log(end);
 				}
-
+				response.removeAllListeners('data');
 
 			} 
 
-		// });
+		});
 	};
-	request("http://"+options.host+options.path, callback);
+	http.get("http://"+options.host+options.path, callback);
 
 	calculateHelper(to, speed, res);
 };
 
 var calculateHelper = function(to, speed, res) {
 	if (end==="") {
-		setTimeout(function(){calculateHelper(to, speed, res)}, 500);
+		setTimeout(function(){calculateHelper(to, speed, res)}, 100);
 		return;
 	}
 	if (stack.length === 0) {
 		//console.log(res);
-		res.send(accumulatePath());
+		//res.send(accumulatePath());
+		setTimeout(function(){calculateHelper(to, speed, res)}, 100);
 		return;
 	}
 
-	//console.log(stack);
-	var pos = stack.pop();
 	console.log(stack);
+	var pos = stack.pop();
 	var time = pos[0];
 	var from = querystring.escape(pos[1]);
 
@@ -122,15 +126,14 @@ var calculateHelper = function(to, speed, res) {
 		path: '/REST/V1/Routes/Transit?wp.0='+from+'&wp.1='+to+'&timeType=Departure&dateTime='+convertTime(time)+'&maxSolns=3&output=json&key=Ar4y4wDSYp3CK2xuOrmYnj_CrI-XcCKR9gekEPPSZUWwH5G7QP-8TAwVSp07TD9T'
 	};
 
-	var callback = function(error, response, str) {
-		console.log("hi1");
-		// var str = '';
+	var callback = function(response) {
+		var str = '';
 
-		// response.on('data', function (chunk) {
-		// 	str += chunk;
-		// });
+		response.on('data', function (chunk) {
+			str += chunk;
+		});
 
-		// response.on('end', function () {
+		response.on('end', function () {
 			var resources = JSON.parse(str).resourceSets[0].resources;
 			for (var k = 0; k < resources.length; k++) {
 				var resource = resources[k];
@@ -176,11 +179,10 @@ var calculateHelper = function(to, speed, res) {
 				}
 
 			}
-		// });
+		});
 	};
 
-	console.log(pos);
-	request("http://"+options.host+options.path, callback);
+	http.get("http://"+options.host+options.path, callback);
 	if (end in memoTime) {
 		res.send(accumulatePath());
 		return;
