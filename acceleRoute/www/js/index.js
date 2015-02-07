@@ -102,7 +102,20 @@ function getLocation() {
     );
     console.log("got location" + currLocationString);
 }
+var res = [];
+function results(data) {
+    var newRes = [];
+    data = data.reverse();
+    for (var i = 0;i<data.length;i++) {
+        newRes.push([data[i][1], (new Date(Date(data[i][0]))).toLocaleTimeString()]);
+    }
+    res = newRes;
+    $.mobile.changePage("#page4", {transition: "slideup"});
+}
 
+function getResults() {
+    return res;
+}
 function findRoute() {
     var S = document.getElementById('pos').value;
     var T = document.getElementById('dest').value;
@@ -133,6 +146,6 @@ function findRoute() {
         type: "GET",
         url:  "http://localhost:3000",
         data: {to: S, from: T, time: Date.now(), speed: sp},
-        success: function (data) {console.log("success " + data)}
+        success: function (data) {results(data)}
     });
 }
