@@ -106,7 +106,15 @@ function getLocation() {
 function findRoute() {
     var S = document.getElementById('pos').value;
     var T = document.getElementById('dest').value;
-
+    var sp = 1.0;
+    if ($('#op1').hasClass("submenu-active")) {
+        sp = 0.5;
+    }
+    if ($('#op3').hasClass('submenu-active'))
+        sp = 2.0;
+    if ($('#op4').hasClass('submenu-active'))
+        sp = 3.0;
+    console.log(sp);
     if (S=="Current Location") {
         getLocation();
         S = currLocationString;
@@ -124,7 +132,7 @@ function findRoute() {
     $.ajax({
         type: "GET",
         url:  "http://localhost:3000",
-        data: {to: S, from: T, time: Date.now(), speed: 1.0},
+        data: {to: S, from: T, time: Date.now(), speed: sp},
         success: function (data) {console.log("success " + data)}
     });
 }
