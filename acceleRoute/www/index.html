@@ -123,12 +123,30 @@
             
         </div><!-- /page -->
         
+        <div data-role="page" id="page4">
+            <div data-role="header">
+                <h1> acceleRoute </h1>
+                
+            </div><!-- /header -->
+            
+            <div data-role="content">
+                <p> directions </p>
+                <ul class="collection" id="directions">
+                    
+                </ul>
+            </div><!-- /content -->
+            
+            <a style="text-transform: capitalize;color:white;position:fixed;bottom:0px;width:100%;padding: 0px; margin:0px;" class="button button-block button-rounded button-caution button-large">Done!</a>
+            
+        </div><!-- /page -->
+        
         <script type="text/javascript">
             $(function() {
               $("#pos").click(function() {
                   $("#poslist").empty();
                   $.mobile.changePage("#page2", {transition: "slide"});
                   var list = getHistory();
+                  $("#poslist").append('<li class="collection-item option">' + 'Current Location' + '</li>');
                   for (i = 0; i < list.length; i++) {
                     $("#poslist").append('<li class="collection-item option">' + list[i] + '</li>');
                   }
@@ -199,10 +217,17 @@
                });
                
                $(function() {
-                 $(".button").click(function() {
+                 $(".button-action").click(function() {
                         findRoute();
+                        $.mobile.changePage("#page4", {transition: "slideup"});
+
                     });
                  });
+                 
+                 $(".button-caution").click(function() {
+                   $.mobile.changePage("#page1", {transition: "slidedown"});
+                   
+                   });
         </script>
         <script src="phonegap.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
